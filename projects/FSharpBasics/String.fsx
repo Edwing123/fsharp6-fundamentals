@@ -71,11 +71,11 @@ System.Console.WriteLine(lastPoem)
 
 // Triple quote strings are strings enclosed by triple quotes characters.
 // In this presentation there is no need to escape double quotes.
-let transactionResponse = @"{
-	""transactionId"": ""123456"",
-	""status"": ""success"",
-	""message"": ""Transaction was successful.""
-}"
+let transactionResponse = """{
+	"transactionId": "123456",
+	"status": "success",
+	"message": "Transaction was successful."
+}"""
 
 System.Console.WriteLine(transactionResponse)
 
