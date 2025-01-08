@@ -21,7 +21,7 @@ let grades = [87; 99; 78; 88; 96]
 // its elements, but you can still access them through their
 // index.
 
-grades[0] <- 100 // This will not compile
+// grades[0] <- 100 // This will not compile
 
 // Integral Type Ranges.
 // It's F# take on ranges, a convinient way
