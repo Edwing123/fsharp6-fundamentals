@@ -1,24 +1,69 @@
 ﻿open System
 
-type LoggingLevel =
-    | Info
-    | Debug
-    | Error
+module Logger =
 
-let log (level: LoggingLevel) (msg: string) = Console.WriteLine($"{level}: {msg}")
+    type LoggingLevel =
+        | Info
+        | Debug
+        | Error
 
-let logInfo = log LoggingLevel.Info
+    let log (level: LoggingLevel) (msg: string) =
+        let date = System.DateTime.UtcNow.ToString()
+        Console.WriteLine(sprintf """{ "level": "%A", "date": "%s", "msg": "%s" }""" level date msg)
+
+    let info = log LoggingLevel.Info
+
+    let debug = log LoggingLevel.Debug
+
+type Account = { mutable Balance: float }
+
+let createAccount initialBalance = { Balance = initialBalance }
+
+let promptUser () =
+    Console.Write("actions: (d)eposit, (w)ithdraw or (e)xit: ")
+    let action = Console.ReadLine()
+    action
+
+let promptAmount () =
+    Console.Write("enter the amount: ")
+    let amount = Console.ReadLine()
+    float amount
 
 [<EntryPoint>]
 let main argv =
-    logInfo "transaction processor starting."
-    logInfo $"received args: {argv}"
+    Logger.debug "transaction processor starting."
+    Logger.debug $"received args: {argv}."
 
-    Console.Write("actions: (d)eposit, (w)ithdra or (e)xit: ")
+    Logger.info "creating test account with 10,000 dollars."
 
-    let action = Console.ReadLine()
+    let dummyAccount = createAccount 10_000
 
-    logInfo $"selected action: {action}"
+    let mutable running = true
 
-    logInfo "transaction processor shutting down."
+    Logger.info "starting option selection loop."
+
+    while running do
+
+        let currentBalance = dummyAccount.Balance
+        Console.WriteLine $"Balance: {currentBalance}."
+
+        let action = promptUser ()
+        Logger.info $"selected action: {action}."
+
+        dummyAccount.Balance <-
+            match action with
+            | "d" ->
+                Logger.info "getting deposit amount."
+                currentBalance + promptAmount ()
+            | "w" ->
+                Logger.info "getting withdrawal amount."
+                currentBalance - promptAmount ()
+            | _ ->
+                Logger.info "action <> d or w"
+                running <- action <> "e"
+                currentBalance
+
+    Logger.info "exiting option selection loop."
+
+    Logger.debug "transaction processor shutting down."
     0
