@@ -1,4 +1,4 @@
-module App.Logging
+module TransactionProcesor.Logging
 
 open System
 
@@ -7,12 +7,12 @@ type Level =
     | Debug
     | Error
 
-type JsonEntry =
+type Entry =
     { Level: Level
       Msg: string
       DateTime: DateTime }
 
-let jsonEntryToString
+let entryToJson
     { Level = level
       Msg = msg
       DateTime = dateTime }
@@ -23,12 +23,12 @@ let log (level: Level) msg =
     let date = DateTime.UtcNow
 
     Console.WriteLine(
-        jsonEntryToString
+        entryToJson
             { Level = level
               Msg = msg
               DateTime = date }
     )
 
-let info = log Level.Info
-
-let debug = log Level.Debug
+module Logger =
+    let info = log Level.Info
+    let debug = log Level.Debug

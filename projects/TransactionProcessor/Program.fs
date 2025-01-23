@@ -1,4 +1,5 @@
 ﻿open System
+open TransactionProcesor.Logging
 
 type Account = { mutable Balance: float }
 
@@ -16,16 +17,16 @@ let promptAmount () =
 
 [<EntryPoint>]
 let main argv =
-    App.Logging.debug "transaction processor starting."
-    App.Logging.debug $"received args: {argv}."
+    Logger.debug "transaction processor starting."
+    Logger.debug $"received args: {argv}."
 
-    App.Logging.info "creating test account with 10,000 dollars."
+    Logger.info "creating test account with 10,000 dollars."
 
     let dummyAccount = createAccount 10_000
 
     let mutable running = true
 
-    App.Logging.info "starting option selection loop."
+    Logger.info "starting option selection loop."
 
     while running do
 
@@ -33,22 +34,22 @@ let main argv =
         Console.WriteLine $"Balance: {currentBalance}."
 
         let action = promptUser ()
-        App.Logging.info $"selected action: {action}."
+        Logger.info $"selected action: {action}."
 
         dummyAccount.Balance <-
             match action with
             | "d" ->
-                App.Logging.info "getting deposit amount."
+                Logger.info "getting deposit amount."
                 currentBalance + promptAmount ()
             | "w" ->
-                App.Logging.info "getting withdrawal amount."
+                Logger.info "getting withdrawal amount."
                 currentBalance - promptAmount ()
             | _ ->
-                App.Logging.info "action <> d or w"
+                Logger.info "action <> d or w"
                 running <- action <> "e"
                 currentBalance
 
-    App.Logging.info "exiting option selection loop."
+    Logger.info "exiting option selection loop."
 
-    App.Logging.debug "transaction processor shutting down."
+    Logger.debug "transaction processor shutting down."
     0
