@@ -7,9 +7,12 @@ module Logger =
         | Debug
         | Error
 
+    let createJsonLogginEntry (level: Level) msg (dateTime: DateTime) =
+        sprintf """{ "level": "%A", "date": "%s", "msg": "%s" }""" level (dateTime.ToString()) msg
+
     let log (level: Level) (msg: string) =
-        let date = System.DateTime.UtcNow.ToString()
-        Console.WriteLine(sprintf """{ "level": "%A", "date": "%s", "msg": "%s" }""" level date msg)
+        let date = System.DateTime.UtcNow
+        Console.WriteLine(createJsonLogginEntry level msg date)
 
     let info = log Level.Info
 
