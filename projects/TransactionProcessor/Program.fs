@@ -1,5 +1,4 @@
-﻿open System
-open TransactionProcesor.Logging
+﻿open TransactionProcesor.Logging
 
 [<EntryPoint>]
 let main argv =
