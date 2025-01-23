@@ -2,18 +2,18 @@
 
 module Logger =
 
-    type LoggingLevel =
+    type Level =
         | Info
         | Debug
         | Error
 
-    let log (level: LoggingLevel) (msg: string) =
+    let log (level: Level) (msg: string) =
         let date = System.DateTime.UtcNow.ToString()
         Console.WriteLine(sprintf """{ "level": "%A", "date": "%s", "msg": "%s" }""" level date msg)
 
-    let info = log LoggingLevel.Info
+    let info = log Level.Info
 
-    let debug = log LoggingLevel.Debug
+    let debug = log Level.Debug
 
 type Account = { mutable Balance: float }
 
