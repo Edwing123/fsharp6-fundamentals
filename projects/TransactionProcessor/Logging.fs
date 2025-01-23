@@ -2,24 +2,24 @@ module TransactionProcesor.Logging
 
 open System
 
-type Level =
+type private Level =
     | Info
     | Debug
     | Error
 
-type Entry =
+type private Entry =
     { Level: Level
       Msg: string
       DateTime: DateTime }
 
-let entryToJson
+let private entryToJson
     { Level = level
       Msg = msg
       DateTime = dateTime }
     =
     sprintf """{ "level": "%A", "date": "%s", "msg": "%s" }""" level (dateTime.ToString()) msg
 
-let log (level: Level) msg =
+let private log (level: Level) msg =
     let date = DateTime.UtcNow
 
     Console.WriteLine(
