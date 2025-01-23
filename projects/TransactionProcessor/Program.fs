@@ -1,23 +1,5 @@
 ﻿open System
 
-module Logger =
-
-    type Level =
-        | Info
-        | Debug
-        | Error
-
-    let createJsonLogginEntry (level: Level) msg (dateTime: DateTime) =
-        sprintf """{ "level": "%A", "date": "%s", "msg": "%s" }""" level (dateTime.ToString()) msg
-
-    let log (level: Level) msg =
-        let date = System.DateTime.UtcNow
-        Console.WriteLine(createJsonLogginEntry level msg date)
-
-    let info = log Level.Info
-
-    let debug = log Level.Debug
-
 type Account = { mutable Balance: float }
 
 let createAccount initialBalance = { Balance = initialBalance }
@@ -34,16 +16,16 @@ let promptAmount () =
 
 [<EntryPoint>]
 let main argv =
-    Logger.debug "transaction processor starting."
-    Logger.debug $"received args: {argv}."
+    App.Logging.debug "transaction processor starting."
+    App.Logging.debug $"received args: {argv}."
 
-    Logger.info "creating test account with 10,000 dollars."
+    App.Logging.info "creating test account with 10,000 dollars."
 
     let dummyAccount = createAccount 10_000
 
     let mutable running = true
 
-    Logger.info "starting option selection loop."
+    App.Logging.info "starting option selection loop."
 
     while running do
 
@@ -51,22 +33,22 @@ let main argv =
         Console.WriteLine $"Balance: {currentBalance}."
 
         let action = promptUser ()
-        Logger.info $"selected action: {action}."
+        App.Logging.info $"selected action: {action}."
 
         dummyAccount.Balance <-
             match action with
             | "d" ->
-                Logger.info "getting deposit amount."
+                App.Logging.info "getting deposit amount."
                 currentBalance + promptAmount ()
             | "w" ->
-                Logger.info "getting withdrawal amount."
+                App.Logging.info "getting withdrawal amount."
                 currentBalance - promptAmount ()
             | _ ->
-                Logger.info "action <> d or w"
+                App.Logging.info "action <> d or w"
                 running <- action <> "e"
                 currentBalance
 
-    Logger.info "exiting option selection loop."
+    App.Logging.info "exiting option selection loop."
 
-    Logger.debug "transaction processor shutting down."
+    App.Logging.debug "transaction processor shutting down."
     0
