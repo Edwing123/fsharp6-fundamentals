@@ -17,30 +17,26 @@ module ConsoleUI =
     let start () =
         Logger.info "creating test account with 10,000 dollars."
 
-        let mutable currentBalance = 10_000.0
+        let initialBalance = 10_000.0
 
-        let mutable running = true
+        Logger.info "starting action selection loop."
 
-        Logger.info "starting option selection loop."
-
-        while running do
-
-            Console.WriteLine $"Balance: {currentBalance}."
+        let rec loop balance =
+            Console.WriteLine $"Balance: {balance}."
 
             let action = promptUser ()
             Logger.info $"selected action: {action}."
 
-            currentBalance <-
-                match action with
-                | "d" ->
-                    Logger.info "getting deposit amount."
-                    currentBalance + promptAmount ()
-                | "w" ->
-                    Logger.info "getting withdrawal amount."
-                    currentBalance - promptAmount ()
-                | _ ->
-                    Logger.info "action <> d or w"
-                    running <- action <> "e"
-                    currentBalance
+            match action with
+            | "x" -> ()
+            | "d" -> loop (balance + promptAmount ())
+            | "w" -> loop (balance - promptAmount ())
+            | _ ->
+                Console.WriteLine $"'{action}' is not a valid option."
+                loop balance
+
+        loop initialBalance
 
         Logger.info "exiting option selection loop."
+
+        ()
