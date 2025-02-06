@@ -32,3 +32,4 @@ let private log (level: Level) msg =
 module Logger =
     let info = log Level.Info
     let debug = log Level.Debug
+    let error = log Level.Error
