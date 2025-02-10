@@ -2,6 +2,7 @@ module TransactionProcesor.Driver
 
 open System
 open TransactionProcesor.Logging
+open TransactionProcesor.Domain
 
 module ConsoleUI =
     let private promptUser () =
@@ -17,11 +18,13 @@ module ConsoleUI =
     let start () =
         Logger.info "creating test account with 10,000 dollars."
 
-        let initialBalance = 10_000.0
+        let account = Account.Default
 
         Logger.info "starting action selection loop."
 
-        let rec loop balance =
+        let rec loop account =
+            let balance = account.Balance
+
             Console.WriteLine $"Balance: {balance}."
 
             let action = promptUser ()
@@ -29,20 +32,24 @@ module ConsoleUI =
 
             match action with
             | "e" -> ()
-            | "d" -> loop (balance + promptAmount ())
+            | "d" ->
+                loop
+                    { account with
+                        Balance = balance + promptAmount () }
+
             | "w" ->
                 let newBalance = balance - promptAmount ()
 
                 if newBalance < 0 then
-                    Console.WriteLine("You are overwithdraing.")
-                    loop balance
+                    Console.WriteLine("Operation failed: withdrawal amount exceeds available balance.")
+                    loop account
                 else
-                    loop newBalance
+                    loop { account with Balance = newBalance }
             | _ ->
                 Console.WriteLine $"'{action}' is not a valid option."
-                loop balance
+                loop account
 
-        loop initialBalance
+        loop account
 
         Logger.info "exiting option selection loop."
 
