@@ -28,9 +28,16 @@ module ConsoleUI =
             Logger.info $"selected action: {action}."
 
             match action with
-            | "x" -> ()
+            | "e" -> ()
             | "d" -> loop (balance + promptAmount ())
-            | "w" -> loop (balance - promptAmount ())
+            | "w" ->
+                let newBalance = balance - promptAmount ()
+
+                if newBalance < 0 then
+                    Console.WriteLine("You are overwithdraing.")
+                    loop balance
+                else
+                    loop newBalance
             | _ ->
                 Console.WriteLine $"'{action}' is not a valid option."
                 loop balance
