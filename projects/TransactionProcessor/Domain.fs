@@ -1,6 +1,6 @@
 // Includes the domain models
 
-module TransactionProcesor.Domain
+module TransactionProcessor.Domain
 
 type Account =
     { Id: uint64

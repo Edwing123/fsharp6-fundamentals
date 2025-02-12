@@ -1,8 +1,8 @@
-module TransactionProcesor.Driver
+module TransactionProcessor.Driver
 
 open System
-open TransactionProcesor.Logging
-open TransactionProcesor.Domain
+open TransactionProcessor.Logging
+open TransactionProcessor.Domain
 
 module ConsoleUI =
     let private promptUser () =

@@ -1,4 +1,4 @@
-module TransactionProcesor.Logging
+module TransactionProcessor.Logging
 
 open System
 
