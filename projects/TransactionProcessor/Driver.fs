@@ -41,7 +41,7 @@ module ConsoleUI =
                 let newBalance = balance - promptAmount ()
 
                 if newBalance < 0 then
-                    Console.WriteLine("Operation failed: withdrawal amount exceeds available balance.")
+                    Console.WriteLine "Operation failed: withdrawal amount exceeds available balance."
                     loop account
                 else
                     loop { account with Balance = newBalance }
