@@ -3,6 +3,7 @@ module TransactionProcessor.Driver
 open System
 open TransactionProcessor.Logging
 open TransactionProcessor.Domain
+open TransactionProcessor.Rules
 
 module ConsoleUI =
     let private promptUser () =
@@ -32,19 +33,18 @@ module ConsoleUI =
 
             match action with
             | "e" -> ()
-            | "d" ->
-                loop
-                    { account with
-                        Balance = balance + promptAmount () }
+            | "d" -> loop (account |> Accounts.deposit (promptAmount ()))
+
 
             | "w" ->
-                let newBalance = balance - promptAmount ()
+                let amount = promptAmount ()
+                let newAcount = account |> Accounts.withdraw amount
 
-                if newBalance < 0 then
+                if newAcount.Balance < 0 then
                     Console.WriteLine "Operation failed: withdrawal amount exceeds available balance."
                     loop account
                 else
-                    loop { account with Balance = newBalance }
+                    loop newAcount
             | _ ->
                 Console.WriteLine $"'{action}' is not a valid option."
                 loop account

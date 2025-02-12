@@ -3,7 +3,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup><Compile Include="Domain.fs" />
+  <ItemGroup>
+    <Compile Include="Domain.fs" />
+    <Compile Include="Rules.fs" />
     <Compile Include="Logging.fs" />
     <Compile Include="Driver.fs" />
     <Compile Include="Program.fs" />
