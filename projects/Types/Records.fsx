@@ -19,7 +19,7 @@ type Person = {
 
 // Bind a value of that type (inferred).
 
-let me = {
+let me: Person = {
  FirstName = "Edwin"
  LastName = "Garcia"
  Age = uint8 23
@@ -59,7 +59,7 @@ with
  // `this` is an identifier, we can give it any name, even self or x, it refers to the instance
  // of the record value.
  member this.Concept = $"{this.Merchant} {this.MerchantCountry}"
- // Static members work at type level, as such they don't have a reference to a instance.
+ // Static members work at type level, as such they don't have a reference to an instance.
  static member New id dateTime amount merchant country =
   { Id = id; DateTime = dateTime; Amount = amount; Merchant = merchant; MerchantCountry = country }
 
